@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Respond to Case</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+      <img src="{{ url_for('static', filename='images/judy.jpg') }}" alt="Judy" class="top-image"> 
+      <form method="post" class="form-style">
+      <div class="form-group">
+      <label for="problem">The Problem</label>
+        <p>{{ problem }}</p>
+      </div>
+        
+            <div class="form-group">
+                <label for="response">Your Response</label>
+                <textarea id="response" name="response" placeholder="Type your response here..."></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit Response" class="submit-btn">
+            </div>
+        </form>
+    </div>
+</body>
+</html>

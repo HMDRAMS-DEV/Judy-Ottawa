@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Share Case</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+      function shareCase(button) {
+        const url = "{{ url_for('view_case', case_id=case_id, _external=True) }}";
+        
+        // Check if the Web Share API is available
+        if (navigator.share) {
+          navigator.share({
+            title: 'Share Case',
+            url: url
+          }).catch(console.error);
+        } else {
+          // Fallback for non-supported devices (like desktop browsers)
+          navigator.clipboard.writeText(url).then(() => {
+            // Change button text to 'Link Copied!'
+            button.innerText = 'Link Copied!';
+
+            // Revert button text back to 'Share This Case' after 3 seconds
+            setTimeout(() => {
+              button.innerText = 'Share This Case';
+            }, 3000);
+          }).catch(console.error);
+        }
+      }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/judy.jpg') }}" alt="Judy" class="top-image"> 
+        <div class="form-group">
+            <p>Share this link with your friend (or enemy)</p>
+            <button class="submit-btn" onclick="shareCase(this)">Share this case</button>
+        </div>
+    </div>
+</body>
+</html>

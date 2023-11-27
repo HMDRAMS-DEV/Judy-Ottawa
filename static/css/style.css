@@ -1,0 +1,98 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.4em;
+  display: flex;
+  align-items: flex-start;
+  height: 100vh;
+  margin: 0;
+  background-color: #50250F;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #AE9890;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 20px auto; /* Added 'auto' to horizontally center the container */
+}
+
+.top-image {
+    display: block;
+    margin: 0 auto; /* This will center the image */
+    max-width: 100%; /* This will make sure the image is responsive and doesn't overflow its container */
+    height: auto; /* This will maintain the aspect ratio of the image */
+}
+
+.form-group {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.form-style {
+  width: 100%;
+  align-content: center;
+  margin: 0 auto; /* Center the form horizontally */
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+}
+
+h1 {
+  display: block;
+  margin-bottom: 5px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1.4rem;
+}
+
+.submit-btn {
+  background-color: #1E191B;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 2.4rem;
+  width: 100%; /* Full width */
+  box-sizing: border-box; /* Include padding and border in the width and height */
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.submit-btn:hover {
+  background-color: #6F3D2E;
+}
+
+/* Smaller screens (e.g., mobile phones) */
+@media (max-width: 768px) {
+  body {
+    font-size: 1.2em; /* Adjust font size for smaller screens */
+  }
+  .container {
+    width: 90%; /* Adjust container width for smaller screens */
+    margin: 0 auto;
+    padding: 10px;
+  }
+  label, h1 {
+    font-size: 2rem; /* Adjust heading font size for smaller screens */
+  }
+  textarea, input[type="text"] {
+    font-size: 1.2rem; /* Adjust input font size for smaller screens */
+  }
+  .submit-btn {
+    font-size: 2rem; /* Adjust button font size for smaller screens */
+  }
+}

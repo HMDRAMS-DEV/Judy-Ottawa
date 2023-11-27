@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Judging...</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const quotes = [
+            "What are you doing here?",
+            "Then it doesn't exist.",
+            "I know who I am.",
+            "This is my playpen!",
+            "You're an idiot!",
+            "Listen to me very carefully!",
+            "That's not what the law says.",
+            "I've been in this business for 30 years.",
+            "I don't care!",
+            "(You're so full of) Baloney.",
+            "OUTRAGEOUS! YOU ARE AN OUTRAGEOUS PERSON!",
+            "Byrd, tell these people goodbye for me.",
+            "Goodbye, good luck, adios, arrivederci, sayonara, have a happy life!",
+            "That's not happening."
+          ];
+  
+          function changeQuote() {
+            const quoteElement = document.getElementById('quote');
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            quoteElement.textContent = quotes[randomIndex];
+          }
+
+          changeQuote(); // Change the quote immediately on load
+          setInterval(changeQuote, 3000); // Change quote every 3 seconds
+
+          // Function to check the status of the case
+          function checkStatus(caseId) {
+              fetch(`/check_status/${caseId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'completed') {
+                        window.location.href = `/case/${caseId}/view`; // Redirect to the judgment view
+                    }
+                });
+          }
+
+          // Extract caseId from URL
+          const urlSegments = window.location.pathname.split('/');
+          const caseIdIndex = urlSegments.findIndex(segment => segment === 'case') + 1;
+          const caseId = urlSegments[caseIdIndex];
+          console.log(caseId)
+          setInterval(() => checkStatus(caseId), 2000); // Poll every 2 seconds
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+      <img src="{{ url_for('static', filename='images/judy-loader.gif') }}" alt="Judy" class="top-image"> 
+        <p id="quote">Processing your judgment, please wait...</p>
+    </div>
+</body>
+</html>
