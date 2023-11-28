@@ -4,22 +4,34 @@
     <title>Judy</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          var caseInput = document.getElementById('case');
+          var submitBtn = document.getElementById('submitBtn');
+
+          function updateButtonState() {
+              submitBtn.disabled = caseInput.value.trim() === '';
+          }
+
+          caseInput.addEventListener('input', updateButtonState);
+      });
+  </script>
 
 </head>
 <body>
     <div class="container">
-      <img src="{{ url_for('static', filename='images/judy.jpg') }}" alt="Judy" class="top-image"> 
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Judy" class="top-image"> 
         <form method="post" action="/submit_case" class="form-style">
             <div class="form-group">
-                <label for="problem">Overview</label>
-                <textarea id="problem" name="problem"placeholder="Give an overview here..."></textarea>
+                <!-- <label for="problem">Overview</label> -->
+                <!-- <textarea id="problem" name="problem"placeholder="Give an overview here of the dispute, try to be objective and descriptive of the scenario as best as you can..."></textarea>
+            </div> -->
+            <div class="form-group">
+                <label for="case">Share Your Dispute</label>
+                <textarea id="case" name="case" placeholder="What's your dispute about? What happened?"></textarea>
             </div>
             <div class="form-group">
-                <label for="case">Your Case</label>
-                <textarea id="case" name="case" placeholder="Explain your case here..."></textarea>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Submit case" class="submit-btn">
+                <input type="submit" value="Submit your dispute" class="submit-btn" disabled id="submitBtn">
             </div>
         </form>
     </div>

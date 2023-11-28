@@ -17,24 +17,24 @@
         const caseId = caseIdMatch[1]; // Extracted case_id
         const url = `{{ url_for('view_judgment', case_id='CASE_ID', _external=True) }}`.replace('CASE_ID', caseId);
 
-        // Check if the Web Share API is available
-        if (navigator.share) {
-          navigator.share({
-            title: 'Share Judgment',
-            url: url
-          }).catch(console.error);
-        } else {
-          // Fallback for non-supported devices (like desktop browsers)
-          navigator.clipboard.writeText(url).then(() => {
-            // Change button text to 'Link Copied!'
-            button.innerText = 'Link Copied!';
+         // Check if the Web Share API is available and if the user is on Safari Mobile
+          if (navigator.share && navigator.userAgent.match(/Mobile.*Safari/)) {
+            navigator.share({
+              title: 'Share Judgment',
+              url: url
+            }).catch(console.error);
+          } else {
+            // Fallback for non-supported devices (like desktop browsers)
+            navigator.clipboard.writeText(url).then(() => {
+              // Change button text to 'Link Copied!'
+              button.innerText = 'Link Copied!';
 
-            // Revert button text back to 'Share This Judgment' after 3 seconds
-            setTimeout(() => {
-              button.innerText = 'Share This Judgment';
-            }, 3000);
-          }).catch(console.error);
-        }
+              // Revert button text back to 'Share This Judgment' after 3 seconds
+              setTimeout(() => {
+                button.innerText = 'Share This Judgment';
+              }, 3000);
+            }).catch(console.error);
+          }
       }
     }
   </script>
@@ -43,14 +43,16 @@
 </head>
 <body>
     <div class="container">
-        <img src="{{ url_for('static', filename='images/judy.jpg') }}" alt="Judy" class="top-image">
+      <a href="/"> <!-- Replace '/new_case' with the actual URL for a new case -->
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Judy" class="top-image">
+      </a>
         <div style="form-style">
             <h1>Judgment Details</h1>
-
+<!-- 
             <div class="form-group">
                 <label>Overview</label>
                 <div class="text-display">{{ case_data['problem'] }}</div>
-            </div>
+            </div> -->
 
             <div class="form-group">
                 <label>Plaintiff's Argument</label>
@@ -70,6 +72,9 @@
             <div class="form-group">
                 <button class="submit-btn" onclick="shareJudgment(this)">Share this Judgment</button>
             </div>
+          <div class="form-group">
+              <button class="submit-btn" onclick="window.location.href='/';">New Case</button>
+          </div>
         </div>
     </div>
 </body>

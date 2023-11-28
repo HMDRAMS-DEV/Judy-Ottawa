@@ -15,12 +15,12 @@ def index():
 
 @app.route('/submit_case', methods=['POST'])
 def submit_case():
-  problem = request.form['problem']
+  #  problem = request.form['problem']
   case = request.form['case']
   # Generate a unique ID for the entry
   unique_id = str(uuid.uuid4())
   if db:
-    db[unique_id] = {'problem': problem, 'case': case, 'status': 'pending'}
+    db[unique_id] = {'problem': '', 'case': case, 'status': 'pending'}
   else:
     return "Database not found", 500
 
@@ -52,7 +52,7 @@ def view_case(case_id):
     return redirect(url_for('judge_case', case_id=case_id))
 
   return render_template('response.html',
-                         problem=case_data['problem'],
+                         case=case_data['case'],
                          case_id=case_id)
 
 
@@ -64,12 +64,12 @@ def process_judgement(case_id):
   if not case_data:
     return "Case not found", 404
 
-  problem = case_data['problem']
+  # problem = case_data['problem']
   case = case_data['case']
   response = case_data['response']
 
   # Content for OpenAI API
-  content = f"Overview: {problem}\n\nPlaintiff Argument: {case}\n\nDefendant Response: {response}\n\nPlease provide a fair but humorous decision based on these arguments. Keep your response to 100 words or less. Focus on the argument and response more so than the overview"
+  content = f"Plaintiff Overview and Case: {case}\n\nDefendant Response: {response}\n\nPlease provide a fair decision based on these arguments. Keep your response to 75 words or less. Reference historical cases from your knowledge and also from the city of ottawa bylaws in your knowledge."
 
   # Set up OpenAI API client, set up the key already in env
   client = openai.OpenAI()
@@ -89,16 +89,20 @@ def process_judgement(case_id):
     file2 = client.files.create(file=open("files/LawAndDisorder.pdf", "rb"),
                                 purpose='assistants')
 
+    file3 = client.files.create(file=open("files/cityofottawabylaws.txt",
+                                          "rb"),
+                                purpose='assistants')
+
     # Create an assistant
     judy = client.beta.assistants.create(
         name="Judy",
         instructions=
-        "You are a judge inspired by Judge Judy and Larry David. Your role is focussed on finding a fair but humorous resolution to the problem listed. Focus on finding a compromise. Do not add any generic statements about how hard it is to make a judgement or how both sides are right, instead, be sarcastic and funny and deliver a final judgement. Show attitude and do not hold back by being overly polite or too verbose. I have provided you with reference material of absurd court cases that you should feel free to reference in your judgement to add a sense of historical context, be absurd in those references when you can. Keep your judgement to 100 words or less. Use emojis.",
+        "You are a city of ottawa judge inspired by Judge Judy and Larry David. Your role is focussed on finding a fair but sarcastically humorous resolution to the problems discussed. Focus on finding a compromise. Do not add any generic statements about how hard it is to make a judgement or how both sides are right, instead, be direct and deliver a final judgement. Show attitude and do not hold back by being overly polite or too verbose. I have provided you with reference material of the city of ottawa by laws and historical absurd court cases that you should feel free to reference in your judgement to add a sense of historical context, also reference any specific by laws. Keep your judgement to 100 words or less. Use emojis.",
         model="gpt-4-1106-preview",
         tools=[{
             "type": "retrieval"
         }],
-        file_ids=[file.id, file2.id])
+        file_ids=[file.id, file2.id, file3.id])
 
     print("Judy: ", judy)
 

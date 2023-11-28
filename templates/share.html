@@ -8,34 +8,33 @@
     <script>
       function shareCase(button) {
         const url = "{{ url_for('view_case', case_id=case_id, _external=True) }}";
-        
-        // Check if the Web Share API is available
-        if (navigator.share) {
+
+        // Check if the user is likely on a desktop device
+        if (!navigator.share || window.innerWidth >= 768) { // 768px is a common breakpoint for tablets and below
+          // Use Clipboard API for desktop browsers
+          navigator.clipboard.writeText(url).then(() => {
+            button.innerText = 'Link Copied. Ready to share!';
+            setTimeout(() => {
+              button.innerText = 'Let the other side plead their case';
+            }, 3000);
+          }).catch(console.error);
+        } else {
+          // Use Web Share API for supported mobile devices
           navigator.share({
             title: 'Share Case',
             url: url
           }).catch(console.error);
-        } else {
-          // Fallback for non-supported devices (like desktop browsers)
-          navigator.clipboard.writeText(url).then(() => {
-            // Change button text to 'Link Copied!'
-            button.innerText = 'Link Copied!';
-
-            // Revert button text back to 'Share This Case' after 3 seconds
-            setTimeout(() => {
-              button.innerText = 'Share This Case';
-            }, 3000);
-          }).catch(console.error);
         }
       }
+
     </script>
 </head>
 <body>
     <div class="container">
-        <img src="{{ url_for('static', filename='images/judy.jpg') }}" alt="Judy" class="top-image"> 
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Judy" class="top-image"> 
         <div class="form-group">
-            <p>Share this link with your friend (or enemy)</p>
-            <button class="submit-btn" onclick="shareCase(this)">Share this case</button>
+            <p>Your case has been made! Now let the other side plead their case.</p>
+            <button class="submit-btn" onclick="shareCase(this)">Let the other side plead their case</button>
         </div>
     </div>
 </body>

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto&display=swap');
+
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 1.4em;
@@ -5,14 +7,15 @@ body {
   align-items: flex-start;
   height: 100vh;
   margin: 0;
-  background-color: #50250F;
+  background-color: #F5F5F5;
 }
 
 .container {
+  min-height: 100vh; /* Change to min-height */
   width: 100%;
   max-width: 600px;
   padding: 20px;
-  background-color: #AE9890;
+  background-color: #FFFFFF;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   margin: 20px auto; /* Added 'auto' to horizontally center the container */
@@ -23,6 +26,16 @@ body {
     margin: 0 auto; /* This will center the image */
     max-width: 100%; /* This will make sure the image is responsive and doesn't overflow its container */
     height: auto; /* This will maintain the aspect ratio of the image */
+}
+
+.loader-image {
+    display: block;
+    margin: 0 auto; /* Center the image */
+    max-width: 100%; /* Responsive image */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 50%; /* Makes the image circular */
+    border: 5px solid #19498A; /* Adjust the border color and size as needed */
+    animation: rotate 10s linear infinite; /* Rotating animation */
 }
 
 .form-group {
@@ -57,10 +70,13 @@ input[type="text"], textarea {
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 1.4rem;
+  min-height: 100px; /* Adjust as needed to fit the placeholder */
+  resize: vertical; /* Allows the user to resize the textarea vertically */
+  /* Add more styles as needed (padding, border, font-size, etc.) */
 }
 
 .submit-btn {
-  background-color: #1E191B;
+  background-color: #19498A;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -70,21 +86,50 @@ input[type="text"], textarea {
   width: 100%; /* Full width */
   box-sizing: border-box; /* Include padding and border in the width and height */
   font-family: 'Bebas Neue', sans-serif;
+  font-weight: normal;
+}
+
+.submit-btn:disabled {
+  background-color: #6fa8dc; /* Example: Light grey background for disabled state */
+  cursor: not-allowed; /* Changes the cursor to indicate that the button is disabled */
+  /* Additional styles as needed */
+}
+
+#quote {
+  /* Your existing styles */
+  text-align: center; /* This should center the text */
+  /* Other styles as needed */
+  margin-top: 20px; /* Increase margin above the quote */
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  #quote {
+    text-align: center; /* Re-emphasize text alignment for mobile */
+    width: 100%; /* Ensure the width is 100% of the container */
+    margin: 0 auto; /* Center the element within its container */
+    /* Additional mobile-specific styles if needed */
+  }
 }
 
 .submit-btn:hover {
-  background-color: #6F3D2E;
+  background-color: #3a6ea5;
 }
 
 /* Smaller screens (e.g., mobile phones) */
 @media (max-width: 768px) {
   body {
+    background-color: #FFFFFF;
     font-size: 1.2em; /* Adjust font size for smaller screens */
   }
   .container {
-    width: 90%; /* Adjust container width for smaller screens */
+    margin: 0; /* Remove margin to make container stretch to screen edges */
+      padding: 0; /* Remove padding to make container stretch to screen edges */
+    width: 100%; /* Adjust container width for smaller screens */
     margin: 0 auto;
     padding: 10px;
+    max-width: none;
+    min-height: calc(100vh - 20px); /* Adjust height for mobile, minus padding */
   }
   label, h1 {
     font-size: 2rem; /* Adjust heading font size for smaller screens */
